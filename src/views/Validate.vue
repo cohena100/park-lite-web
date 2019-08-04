@@ -6,30 +6,30 @@
           <v-card class="elevation-12">
             <v-toolbar color="primary" dark flat>
               <v-toolbar-title>{{
-                $t('message.phoneView.title')
+                $t('message.validateView.title')
               }}</v-toolbar-title>
               <v-spacer></v-spacer>
             </v-toolbar>
             <v-card-text>
               <v-form>
                 <v-text-field
-                  :hint="$t('message.phoneView.hint')"
-                  v-model.trim="shared.login.phone"
-                  counter="10"
+                  :hint="$t('message.validateView.hint')"
+                  v-model.trim="shared.login.code"
+                  counter="4"
                   clearable
-                  prepend-icon="smartphone"
-                  type="tel"
+                  prepend-icon="sms"
+                  type="text"
                   :loading="loading"
                   :error-messages="allErrors"
                   required
-                  @blur="$v.shared.login.phone.$touch()"
+                  @blur="$v.shared.login.code.$touch()"
                 ></v-text-field>
               </v-form>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" @click="login">{{
-                $t('message.phoneView.continue')
+              <v-btn color="primary" @click="validate">{{
+                $t('message.validateView.continue')
               }}</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
@@ -57,34 +57,30 @@ export default {
   computed: {
     allErrors() {
       const errors = []
-      if (!this.$v.shared.login.phone.$dirty) {
+      if (!this.$v.shared.login.code.$dirty) {
         return errors
       }
       if (
-        !this.$v.shared.login.phone.numeric ||
-        !this.$v.shared.login.phone.required ||
-        !this.$v.shared.login.phone.minLength ||
-        !this.$v.shared.login.phone.maxLength
+        !this.$v.shared.login.code.numeric ||
+        !this.$v.shared.login.code.required ||
+        !this.$v.shared.login.code.minLength ||
+        !this.$v.shared.login.code.maxLength
       ) {
-        errors.push(this.$t('message.phoneView.error'))
+        errors.push(this.$t('message.validateView.error'))
       }
       return errors
     },
     ...mapState(['shared'])
   },
   methods: {
-    login() {
+    validate() {
       this.$v.$touch()
       if (!this.$v.$invalid) {
         this.loading = true
         this.$store
-          .dispatch('user/login')
+          .dispatch('user/validate')
           .then(() => {
             this.loading = false
-            this.$router.push({
-              name: 'validate',
-              params: { appContext: 'login' }
-            })
           })
           .catch(error => {
             this.loading = false
@@ -96,11 +92,11 @@ export default {
   validations: {
     shared: {
       login: {
-        phone: {
+        code: {
           required,
           numeric,
-          minLength: minLength(10),
-          maxLength: maxLength(10)
+          minLength: minLength(4),
+          maxLength: maxLength(4)
         }
       }
     }
