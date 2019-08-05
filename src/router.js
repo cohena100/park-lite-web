@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import store from '@/store/store'
 
 Vue.use(Router)
 
@@ -14,7 +13,7 @@ const router = new Router({
       name: 'home',
       component: Home,
       beforeEnter: (to, from, next) => {
-        const loggedIn = store.getters['user/isLoggedIn']
+        const loggedIn = localStorage.getItem('user')
         if (loggedIn) {
           next()
         } else {
@@ -28,7 +27,7 @@ const router = new Router({
       component: () =>
         import(/* webpackChunkName: "phone" */ './views/Phone.vue'),
       beforeEnter: (to, from, next) => {
-        const loggedIn = store.getters['user/isLoggedIn']
+        const loggedIn = localStorage.getItem('user')
         if (!loggedIn) {
           next()
         } else {
@@ -43,7 +42,7 @@ const router = new Router({
       component: () =>
         import(/* webpackChunkName: "validate" */ './views/Validate.vue'),
       beforeEnter: (to, from, next) => {
-        const loggedIn = store.getters['user/isLoggedIn']
+        const loggedIn = localStorage.getItem('user')
         if (!loggedIn) {
           next()
         } else {

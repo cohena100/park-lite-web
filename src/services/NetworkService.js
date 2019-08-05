@@ -17,5 +17,8 @@ export default {
   },
   validate(data) {
     return apiClient.post('/users/loginValidate', data)
+  },
+  setToken(token) {
+    apiClient.defaults.headers.common['Authorization'] = token
   }
 }

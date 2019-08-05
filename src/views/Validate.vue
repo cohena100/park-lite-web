@@ -81,6 +81,9 @@ export default {
           .dispatch('user/validate')
           .then(() => {
             this.loading = false
+            this.$router.push({
+              name: 'home'
+            })
           })
           .catch(error => {
             this.loading = false
