@@ -7,8 +7,8 @@ export const state = {
 }
 
 export const mutations = {
-  setUserData(state, data) {
-    state.user = data.user
+  setUserData(state, payload) {
+    state.user = payload
     localStorage.setItem('user', JSON.stringify(state.user))
     NetworkService.setToken(state.user.token)
   }
@@ -31,7 +31,7 @@ export const actions = {
       code: rootState.shared.login.code
     }
     return NetworkService.validate(data).then(response => {
-      commit('setUserData', response.data)
+      commit('setUserData', response.data.user)
     })
   }
 }

@@ -61,8 +61,8 @@ new Vue({
   created() {
     const userString = localStorage.getItem('user')
     if (userString) {
-      const userData = JSON.parse(userString)
-      this.$store.commit('setUserData', userData)
+      const payload = JSON.parse(userString)
+      this.$store.commit('user/setUserData', payload)
     }
   },
   render: h => h(App)
