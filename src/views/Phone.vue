@@ -13,6 +13,7 @@
             <v-card-text>
               <v-form>
                 <v-text-field
+                  id="phoneTextField"
                   :hint="$t('message.phoneView.hint')"
                   v-model.trim="shared.login.phone"
                   counter="10"

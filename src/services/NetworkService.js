@@ -1,8 +1,7 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-  // baseURL: 'https://stormy-dusk-75310.herokuapp.com',
-  baseURL: 'http://localhost:3000',
+  baseURL: process.env.VUE_APP_SERVER_BASE_URL,
   withCredentials: false, // This is the default
   headers: {
     Accept: 'application/json',
