@@ -13,6 +13,7 @@
             <v-card-text>
               <v-form>
                 <v-text-field
+                  id="validateTextField"
                   :hint="$t('message.validateView.hint')"
                   v-model.trim="shared.login.code"
                   counter="4"
@@ -28,7 +29,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" @click="validate">{{
+              <v-btn id="validateButton" color="primary" @click="validate">{{
                 $t('message.validateView.continue')
               }}</v-btn>
               <v-spacer></v-spacer>

@@ -29,7 +29,7 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" @click="login">{{
+              <v-btn id="phoneButton" color="primary" @click="login">{{
                 $t('message.phoneView.continue')
               }}</v-btn>
               <v-spacer></v-spacer>
