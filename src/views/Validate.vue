@@ -90,6 +90,7 @@ export default {
             .dispatch('user/validate')
             .then(() => {
               this.loading = false
+              this.shared.code = null
               this.$router.push({
                 name: 'home'
               })
@@ -103,6 +104,7 @@ export default {
             .dispatch('user/addCarValidate')
             .then(() => {
               this.loading = false
+              this.shared.code = null
               this.$router.push({
                 name: 'home'
               })
