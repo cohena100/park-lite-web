@@ -19,5 +19,11 @@ export default {
   },
   setToken(token) {
     apiClient.defaults.headers.common['Authorization'] = token
+  },
+  addCar(userId) {
+    return apiClient.post('/cars/add', { userId })
+  },
+  addCarValidate(data) {
+    return apiClient.post('/cars/addValidate', data)
   }
 }

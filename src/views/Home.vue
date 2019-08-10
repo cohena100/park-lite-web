@@ -32,9 +32,26 @@
                 </v-list-item-content>
               </v-list-item>
               <v-divider></v-divider>
-              <v-list-item>
+              <v-list-item
+                id="addCarListItem"
+                v-if="!hasCars"
+                @click="addCarClick"
+              >
                 <v-list-item-content>
-                  <v-list-item-title>1234</v-list-item-title>
+                  <v-list-item-title class="text-center">{{
+                    $t('message.homeView.addCarListItem')
+                  }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+              <v-list-item
+                id="startParkingListItem"
+                v-else
+                @click="startParkingClick"
+              >
+                <v-list-item-content>
+                  <v-list-item-title class="text-center">{{
+                    $t('message.homeView.startParkingListItem')
+                  }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
               <v-divider></v-divider>
@@ -64,11 +81,24 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   data() {
     return {
       loading: false
     }
+  },
+  computed: {
+    ...mapGetters('db', ['hasCars'])
+  },
+  methods: {
+    addCarClick() {
+      this.$router.push({
+        name: 'car'
+      })
+    },
+    startParkingClick() {}
   }
 }
 </script>

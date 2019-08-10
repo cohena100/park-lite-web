@@ -6,32 +6,31 @@
           <v-card class="elevation-12">
             <v-toolbar color="primary" dark flat>
               <v-toolbar-title>{{
-                $t('message.phoneView.title')
+                $t('message.carView.title')
               }}</v-toolbar-title>
               <v-spacer></v-spacer>
             </v-toolbar>
             <v-card-text>
               <v-form>
                 <v-text-field
-                  id="phoneTextField"
-                  :hint="$t('message.phoneView.hint')"
+                  id="carTextField"
+                  :hint="$t('message.carView.hint')"
                   autofocus
-                  v-model.trim="shared.login.phone"
-                  counter="10"
+                  v-model.trim="shared.addCar.number"
+                  counter="8"
                   clearable
-                  prepend-icon="smartphone"
-                  type="tel"
-                  :loading="loading"
+                  prepend-icon="directions_car"
+                  type="text"
                   :error-messages="allErrors"
                   required
-                  @blur="$v.shared.login.phone.$touch()"
+                  @blur="$v.shared.addCar.number.$touch()"
                 ></v-text-field>
               </v-form>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn id="phoneButton" color="primary" @click="login">{{
-                $t('message.phoneView.continue')
+              <v-btn id="carButton" color="primary" @click="carClick">{{
+                $t('message.carView.continue')
               }}</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
@@ -52,58 +51,44 @@ import {
 } from 'vuelidate/lib/validators'
 
 export default {
-  data() {
-    return {
-      loading: false
-    }
-  },
   computed: {
     allErrors() {
       const errors = []
-      if (!this.$v.shared.login.phone.$dirty) {
+      if (!this.$v.shared.addCar.number.$dirty) {
         return errors
       }
       if (
-        !this.$v.shared.login.phone.numeric ||
-        !this.$v.shared.login.phone.required ||
-        !this.$v.shared.login.phone.minLength ||
-        !this.$v.shared.login.phone.maxLength
+        !this.$v.shared.addCar.number.numeric ||
+        !this.$v.shared.addCar.number.required ||
+        !this.$v.shared.addCar.number.minLength
       ) {
-        errors.push(this.$t('message.phoneView.error'))
+        errors.push(this.$t('message.carView.errorMin'))
+      }
+      if (!this.$v.shared.addCar.number.maxLength) {
+        errors.push(this.$t('message.number.errorMax'))
       }
       return errors
     },
     ...mapState(['shared'])
   },
   methods: {
-    login() {
+    carClick() {
       this.$v.$touch()
       if (!this.$v.$invalid) {
-        this.loading = true
-        this.$store
-          .dispatch('user/login')
-          .then(() => {
-            this.loading = false
-            this.$router.push({
-              name: 'validate',
-              params: { appContext: 'login' }
-            })
-          })
-          .catch(error => {
-            this.loading = false
-            console.log(error)
-          })
+        this.$router.push({
+          name: 'nickname'
+        })
       }
     }
   },
   validations: {
     shared: {
-      login: {
-        phone: {
+      addCar: {
+        number: {
           required,
           numeric,
-          minLength: minLength(10),
-          maxLength: maxLength(10)
+          minLength: minLength(5),
+          maxLength: maxLength(8)
         }
       }
     }

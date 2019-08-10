@@ -2,17 +2,7 @@ import NetworkService from '@/services/NetworkService.js'
 
 export const namespaced = true
 
-export const state = {
-  user: null
-}
-
-export const mutations = {
-  setUserData(state, payload) {
-    state.user = payload
-    localStorage.setItem('user', JSON.stringify(state.user))
-    NetworkService.setToken(state.user.token)
-  }
-}
+export const state = {}
 
 export const actions = {
   login({ commit, rootState }) {
@@ -27,17 +17,31 @@ export const actions = {
   validate({ commit, rootState }) {
     const data = {
       userId: rootState.shared.login.userId,
-      validateId: rootState.shared.login.validateId,
-      code: rootState.shared.login.code
+      validateId: rootState.shared.validateId,
+      code: rootState.shared.code
     }
     return NetworkService.validate(data).then(response => {
-      commit('setUserData', response.data.user)
+      commit('db/setUserData', response.data.user, { root: true })
     })
-  }
-}
-
-export const getters = {
-  isLoggedIn(state) {
-    return !!state.user
+  },
+  addCar({ commit, rootState }) {
+    return NetworkService.addCar(rootState.db.user._id).then(response => {
+      const payload = {
+        validateId: response.data.validate.validateId
+      }
+      commit('shared/setAddCarValidate', payload, { root: true })
+    })
+  },
+  addCarValidate({ commit, rootState }) {
+    const data = {
+      userId: rootState.db.user._id,
+      number: rootState.shared.addCar.number,
+      nickname: rootState.shared.addCar.nickname,
+      validateId: rootState.shared.validateId,
+      code: rootState.shared.code
+    }
+    return NetworkService.addCarValidate(data).then(response => {
+      commit('db/addCarData', response.data.car, { root: true })
+    })
   }
 }

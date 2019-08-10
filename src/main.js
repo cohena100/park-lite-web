@@ -38,7 +38,23 @@ const messages = {
         error: 'Please fill 4 digits phone number'
       },
       homeView: {
-        title: 'Park Lite'
+        title: 'Park Lite',
+        addCarListItem: 'Add car',
+        startParkingListItem: 'Start parking'
+      },
+      carView: {
+        title: 'Fill Car Number',
+        hint: 'Please enter the car number',
+        continue: 'Continue',
+        errorMin: 'Please fill at least 5 digits',
+        errorMax: 'Please fill at most 8 digits'
+      },
+      nicknameView: {
+        title: 'Fill Car Nickname',
+        hint: 'Please enter the car nickname',
+        continue: 'Continue',
+        errorMin: 'Please fill at least 1 digits',
+        errorMax: 'Please fill at most 20 digits'
       }
     }
   },
@@ -57,7 +73,23 @@ const messages = {
         error: 'נא הזן מספר בן 4 ספרות'
       },
       homeView: {
-        title: 'פארק לייט'
+        title: 'פארק לייט',
+        addCarListItem: 'הוסף רכב',
+        startParkingListItem: 'הפעלת חנייה'
+      },
+      carView: {
+        title: 'הזנת מספר רכב',
+        hint: 'הזן מספר רכב',
+        continue: 'המשך',
+        errorMin: 'נא להזין מספר בן 5 ספרות לפחות',
+        errorMax: 'נא להזין מספר בן 8 לכל היותר'
+      },
+      nicknameView: {
+        title: 'הזנת כינוי לרכב',
+        hint: 'הזן כינוי לרכב',
+        continue: 'המשך',
+        errorMin: 'נא להזין כינוי בן תו לפחות',
+        errorMax: 'נא להזין כינוי בן 20 תווים לכל היותר'
       }
     }
   }
@@ -77,7 +109,7 @@ new Vue({
     const userString = localStorage.getItem('user')
     if (userString) {
       const payload = JSON.parse(userString)
-      this.$store.commit('user/setUserData', payload)
+      this.$store.commit('db/setUserData', payload)
     }
   },
   render: h => h(App)

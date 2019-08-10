@@ -78,7 +78,7 @@ describe('App', () => {
         const userString = localStorage.getItem('user')
         if (userString) {
           const payload = JSON.parse(userString)
-          this.$store.commit('user/setUserData', payload)
+          this.$store.commit('db/setUserData', payload)
         }
       }
     })

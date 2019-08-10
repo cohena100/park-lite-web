@@ -15,7 +15,8 @@
                 <v-text-field
                   id="validateTextField"
                   :hint="$t('message.validateView.hint')"
-                  v-model.trim="shared.login.code"
+                  autofocus
+                  v-model.trim="shared.code"
                   counter="4"
                   clearable
                   prepend-icon="sms"
@@ -23,7 +24,7 @@
                   :loading="loading"
                   :error-messages="allErrors"
                   required
-                  @blur="$v.shared.login.code.$touch()"
+                  @blur="$v.shared.code.$touch()"
                 ></v-text-field>
               </v-form>
             </v-card-text>
@@ -55,17 +56,23 @@ export default {
       loading: false
     }
   },
+  props: {
+    appContext: {
+      type: String,
+      default: 'login'
+    }
+  },
   computed: {
     allErrors() {
       const errors = []
-      if (!this.$v.shared.login.code.$dirty) {
+      if (!this.$v.shared.code.$dirty) {
         return errors
       }
       if (
-        !this.$v.shared.login.code.numeric ||
-        !this.$v.shared.login.code.required ||
-        !this.$v.shared.login.code.minLength ||
-        !this.$v.shared.login.code.maxLength
+        !this.$v.shared.code.numeric ||
+        !this.$v.shared.code.required ||
+        !this.$v.shared.code.minLength ||
+        !this.$v.shared.code.maxLength
       ) {
         errors.push(this.$t('message.validateView.error'))
       }
@@ -78,30 +85,43 @@ export default {
       this.$v.$touch()
       if (!this.$v.$invalid) {
         this.loading = true
-        this.$store
-          .dispatch('user/validate')
-          .then(() => {
-            this.loading = false
-            this.$router.push({
-              name: 'home'
+        if (this.appContext === 'login') {
+          this.$store
+            .dispatch('user/validate')
+            .then(() => {
+              this.loading = false
+              this.$router.push({
+                name: 'home'
+              })
             })
-          })
-          .catch(error => {
-            this.loading = false
-            console.log(error)
-          })
+            .catch(error => {
+              this.loading = false
+              console.log(error)
+            })
+        } else if (this.appContext === 'addCar') {
+          this.$store
+            .dispatch('user/addCarValidate')
+            .then(() => {
+              this.loading = false
+              this.$router.push({
+                name: 'home'
+              })
+            })
+            .catch(error => {
+              this.loading = false
+              console.log(error)
+            })
+        }
       }
     }
   },
   validations: {
     shared: {
-      login: {
-        code: {
-          required,
-          numeric,
-          minLength: minLength(4),
-          maxLength: maxLength(4)
-        }
+      code: {
+        required,
+        numeric,
+        minLength: minLength(4),
+        maxLength: maxLength(4)
       }
     }
   }
