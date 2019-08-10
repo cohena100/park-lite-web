@@ -32,7 +32,6 @@ describe('login', () => {
 
   it('should add car successfully', () => {
     login()
-    cy.get('#validateButton').click()
     cy.url().should('include', '/home')
     cy.get('#addCarListItem').click()
     cy.url().should('include', '/car')
