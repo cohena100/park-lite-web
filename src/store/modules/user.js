@@ -22,6 +22,7 @@ export const actions = {
     }
     return NetworkService.validate(data).then(response => {
       commit('db/setUserData', response.data.user, { root: true })
+      commit('db/setGeoParkData', response.data.geoPark, { root: true })
     })
   },
   addCar({ commit, rootState }) {

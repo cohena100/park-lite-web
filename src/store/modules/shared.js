@@ -10,6 +10,12 @@ export const state = {
   addCar: {
     number: null,
     nickname: null
+  },
+  park: {
+    car: null,
+    city: null,
+    area: null,
+    rate: null
   }
 }
 

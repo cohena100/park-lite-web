@@ -25,5 +25,8 @@ export default {
   },
   addCarValidate(data) {
     return apiClient.post('/cars/addValidate', data)
+  },
+  startParking(data) {
+    return apiClient.post('/parkings/start', data)
   }
 }

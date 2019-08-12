@@ -6,12 +6,8 @@
           <v-card class="elevation-12">
             <v-toolbar color="primary" dark flat>
               <v-toolbar-title>{{
-                $t('message.homeView.title')
+                $t('message.selectCarView.title')
               }}</v-toolbar-title>
-              <v-spacer></v-spacer>
-              <v-btn icon>
-                <v-icon>mdi-account-circle</v-icon>
-              </v-btn>
             </v-toolbar>
             <v-list>
               <v-list-item class="blue">
@@ -33,25 +29,15 @@
               </v-list-item>
               <v-divider></v-divider>
               <v-list-item
-                id="addCarListItem"
-                v-if="!hasCars"
-                @click="addCarClick"
+                v-for="car in db.user.cars"
+                :id="car.car.number"
+                :key="car.car.number"
+                @click="selectCar(car)"
               >
                 <v-list-item-content>
-                  <v-list-item-title class="text-center">{{
-                    $t('message.homeView.addCarListItem')
-                  }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                id="startParkingListItem"
-                v-else
-                @click="startParkingClick"
-              >
-                <v-list-item-content>
-                  <v-list-item-title class="text-center">{{
-                    $t('message.homeView.startParkingListItem')
-                  }}</v-list-item-title>
+                  <v-list-item-title class="text-center"
+                    >{{ car.car.number }} ({{ car.nickname }})
+                  </v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
               <v-divider></v-divider>
@@ -81,28 +67,26 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
-  data() {
-    return {
-      loading: false
+  props: {
+    appContext: {
+      type: String,
+      default: 'park'
     }
   },
   computed: {
-    ...mapGetters('db', ['hasCars'])
+    ...mapState(['db', 'shared'])
   },
   methods: {
-    addCarClick() {
-      this.$router.push({
-        name: 'car'
-      })
-    },
-    startParkingClick() {
-      this.$router.push({
-        name: 'selectCar',
-        params: { appContext: 'park' }
-      })
+    selectCar(car) {
+      if (this.appContext === 'park') {
+        this.shared.park.car = car
+        this.$router.push({
+          name: 'selectCity'
+        })
+      }
     }
   }
 }

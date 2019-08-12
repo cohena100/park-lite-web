@@ -47,10 +47,29 @@ const router = new Router({
         import(/* webpackChunkName: "nickname" */ './views/Nickname.vue')
     },
     {
-      path: '/about',
-      name: 'about',
+      path: '/selectCar',
+      name: 'selectCar',
+      props: true,
       component: () =>
-        import(/* webpackChunkName: "about" */ './views/About.vue')
+        import(/* webpackChunkName: "selectCar" */ './views/SelectCar.vue')
+    },
+    {
+      path: '/selectCity',
+      name: 'selectCity',
+      component: () =>
+        import(/* webpackChunkName: "selectCity" */ './views/SelectCity.vue')
+    },
+    {
+      path: '/selectArea',
+      name: 'selectArea',
+      component: () =>
+        import(/* webpackChunkName: "selectArea" */ './views/SelectArea.vue')
+    },
+    {
+      path: '/selectRate',
+      name: 'selectRate',
+      component: () =>
+        import(/* webpackChunkName: "selectRate" */ './views/SelectRate.vue')
     }
   ]
 })

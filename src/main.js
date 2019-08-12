@@ -55,6 +55,18 @@ const messages = {
         continue: 'Continue',
         errorMin: 'Please fill at least 1 digits',
         errorMax: 'Please fill at most 20 digits'
+      },
+      selectCarView: {
+        title: 'Car Selection'
+      },
+      selectCityView: {
+        title: 'City Selection'
+      },
+      selectAreaView: {
+        title: 'Area Selection'
+      },
+      selectRateView: {
+        title: 'Rate Selection'
       }
     }
   },
@@ -90,6 +102,18 @@ const messages = {
         continue: 'המשך',
         errorMin: 'נא להזין כינוי בן תו לפחות',
         errorMax: 'נא להזין כינוי בן 20 תווים לכל היותר'
+      },
+      selectCarView: {
+        title: 'בחירת רכב'
+      },
+      selectCityView: {
+        title: 'בחירת עיר'
+      },
+      selectAreaView: {
+        title: 'בחירת איזור'
+      },
+      selectRateView: {
+        title: 'בחירת תעריף'
       }
     }
   }
@@ -110,6 +134,11 @@ new Vue({
     if (userString) {
       const payload = JSON.parse(userString)
       this.$store.commit('db/setUserData', payload)
+    }
+    const geoParkString = localStorage.getItem('geoPark')
+    if (geoParkString) {
+      const payload = JSON.parse(geoParkString)
+      this.$store.commit('db/setGeoParkData', payload)
     }
   },
   render: h => h(App)

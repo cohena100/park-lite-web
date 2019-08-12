@@ -6,12 +6,8 @@
           <v-card class="elevation-12">
             <v-toolbar color="primary" dark flat>
               <v-toolbar-title>{{
-                $t('message.homeView.title')
+                $t('message.selectAreaView.title')
               }}</v-toolbar-title>
-              <v-spacer></v-spacer>
-              <v-btn icon>
-                <v-icon>mdi-account-circle</v-icon>
-              </v-btn>
             </v-toolbar>
             <v-list>
               <v-list-item class="blue">
@@ -32,29 +28,20 @@
                 </v-list-item-content>
               </v-list-item>
               <v-divider></v-divider>
-              <v-list-item
-                id="addCarListItem"
-                v-if="!hasCars"
-                @click="addCarClick"
-              >
-                <v-list-item-content>
-                  <v-list-item-title class="text-center">{{
-                    $t('message.homeView.addCarListItem')
-                  }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                id="startParkingListItem"
-                v-else
-                @click="startParkingClick"
-              >
-                <v-list-item-content>
-                  <v-list-item-title class="text-center">{{
-                    $t('message.homeView.startParkingListItem')
-                  }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-divider></v-divider>
+              <template v-for="area in shared.park.city.areas">
+                <v-list-item
+                  :id="area.id"
+                  :key="area.id"
+                  @click="selectArea(area)"
+                >
+                  <v-list-item-content>
+                    <v-list-item-title class="text-center"
+                      >{{ area.name }}
+                    </v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+                <v-divider :key="area.id + '-divider'"></v-divider>
+              </template>
               <v-list-item class="blue">
                 <v-list-item-content>
                   <v-list-item-title></v-list-item-title>
@@ -81,27 +68,17 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
-  data() {
-    return {
-      loading: false
-    }
-  },
   computed: {
-    ...mapGetters('db', ['hasCars'])
+    ...mapState(['shared'])
   },
   methods: {
-    addCarClick() {
+    selectArea(area) {
+      this.shared.park.area = area
       this.$router.push({
-        name: 'car'
-      })
-    },
-    startParkingClick() {
-      this.$router.push({
-        name: 'selectCar',
-        params: { appContext: 'park' }
+        name: 'selectRate'
       })
     }
   }

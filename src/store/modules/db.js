@@ -3,7 +3,8 @@ import NetworkService from '@/services/NetworkService.js'
 export const namespaced = true
 
 export const state = {
-  user: null
+  user: null,
+  geoPark: null
 }
 
 export const mutations = {
@@ -12,8 +13,19 @@ export const mutations = {
     localStorage.setItem('user', JSON.stringify(state.user))
     NetworkService.setToken(state.user.token)
   },
+  setGeoParkData(state, payload) {
+    state.geoPark = payload
+    localStorage.setItem('geoPark', JSON.stringify(state.geoPark))
+  },
   addCarData(state, payload) {
     state.user.cars.push(payload)
+    localStorage.setItem('user', JSON.stringify(state.user))
+  },
+  addParkingData(state, payload) {
+    state.user = {
+      ...state.user,
+      ...payload
+    }
     localStorage.setItem('user', JSON.stringify(state.user))
   }
 }

@@ -6,12 +6,8 @@
           <v-card class="elevation-12">
             <v-toolbar color="primary" dark flat>
               <v-toolbar-title>{{
-                $t('message.homeView.title')
+                $t('message.selectRateView.title')
               }}</v-toolbar-title>
-              <v-spacer></v-spacer>
-              <v-btn icon>
-                <v-icon>mdi-account-circle</v-icon>
-              </v-btn>
             </v-toolbar>
             <v-list>
               <v-list-item class="blue">
@@ -32,29 +28,30 @@
                 </v-list-item-content>
               </v-list-item>
               <v-divider></v-divider>
-              <v-list-item
-                id="addCarListItem"
-                v-if="!hasCars"
-                @click="addCarClick"
-              >
+              <template v-if="!loading">
+                <template v-for="rate in shared.park.area.rates">
+                  <v-list-item
+                    :id="rate.id"
+                    :key="rate.id"
+                    @click="selectRate(rate)"
+                  >
+                    <v-list-item-content>
+                      <v-list-item-title class="text-center"
+                        >{{ rate.name }}
+                      </v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-divider :key="rate.id + '-divider'"></v-divider>
+                </template>
+              </template>
+              <v-list-item v-else>
                 <v-list-item-content>
-                  <v-list-item-title class="text-center">{{
-                    $t('message.homeView.addCarListItem')
-                  }}</v-list-item-title>
+                  <v-progress-circular
+                    indeterminate
+                    color="primary"
+                  ></v-progress-circular>
                 </v-list-item-content>
               </v-list-item>
-              <v-list-item
-                id="startParkingListItem"
-                v-else
-                @click="startParkingClick"
-              >
-                <v-list-item-content>
-                  <v-list-item-title class="text-center">{{
-                    $t('message.homeView.startParkingListItem')
-                  }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-divider></v-divider>
               <v-list-item class="blue">
                 <v-list-item-content>
                   <v-list-item-title></v-list-item-title>
@@ -81,7 +78,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   data() {
@@ -90,19 +87,23 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('db', ['hasCars'])
+    ...mapState(['park', 'shared'])
   },
   methods: {
-    addCarClick() {
-      this.$router.push({
-        name: 'car'
-      })
-    },
-    startParkingClick() {
-      this.$router.push({
-        name: 'selectCar',
-        params: { appContext: 'park' }
-      })
+    selectRate(rate) {
+      this.shared.park.rate = rate
+      this.$store
+        .dispatch('park/start')
+        .then(() => {
+          this.loading = false
+          this.$router.push({
+            name: 'home'
+          })
+        })
+        .catch(error => {
+          this.loading = false
+          console.log(error)
+        })
     }
   }
 }
