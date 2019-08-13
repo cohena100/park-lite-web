@@ -21,5 +21,14 @@ export const actions = {
     return NetworkService.startParking(data).then(response => {
       commit('db/addParkingData', response.data, { root: true })
     })
+  },
+  end({ commit, rootState }) {
+    const data = {
+      userId: rootState.db.user._id,
+      parkingId: rootState.db.user.parking._id
+    }
+    return NetworkService.endParking(data).then(response => {
+      commit('db/updateParkingEndData', response.data, { root: true })
+    })
   }
 }

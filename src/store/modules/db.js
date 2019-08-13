@@ -27,6 +27,18 @@ export const mutations = {
       ...payload
     }
     localStorage.setItem('user', JSON.stringify(state.user))
+  },
+  updateParkingEndData(state, payload) {
+    state.user = {
+      ...state.user,
+      ...payload
+    }
+    localStorage.setItem('user', JSON.stringify(state.user))
+  },
+  updateParkingPaymentData(state) {
+    state.user.parking = undefined
+    state.user.payment = undefined
+    localStorage.setItem('user', JSON.stringify(state.user))
   }
 }
 
@@ -36,5 +48,16 @@ export const getters = {
   },
   hasCars(state) {
     return !(state.user === null || state.user.cars.length === 0)
+  },
+  isParking(state) {
+    return !!state.user.parking
+  },
+  parkingCar(state) {
+    return state.user.cars
+      .filter(car => car.car._id === state.user.parking.car)
+      .pop()
+  },
+  isPayment(state) {
+    return !!state.user.payment
   }
 }

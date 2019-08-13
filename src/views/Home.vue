@@ -32,26 +32,73 @@
                 </v-list-item-content>
               </v-list-item>
               <v-divider></v-divider>
-              <v-list-item
-                id="addCarListItem"
-                v-if="!hasCars"
-                @click="addCarClick"
-              >
+              <template v-if="!loading">
+                <v-list-item
+                  id="addCarListItem"
+                  v-if="!hasCars"
+                  @click="addCarClick"
+                >
+                  <v-list-item-content>
+                    <v-list-item-title class="text-center">{{
+                      $t('message.homeView.addCarListItem')
+                    }}</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+                <template v-else>
+                  <v-list-item
+                    id="paymentListItem"
+                    v-if="isPayment"
+                    @click="paymentClick"
+                  >
+                    <v-list-item-content>
+                      <v-list-item-title class="text-center">{{
+                        $t('message.homeView.paymentListItem')
+                      }}</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item
+                    id="stopParkingListItem"
+                    v-else-if="isParking"
+                    @click="endParkingClick"
+                  >
+                    <v-list-item-content>
+                      <v-list-item-title class="text-center">{{
+                        $t('message.homeView.stopParkingListItem')
+                      }}</v-list-item-title>
+                      <v-list-item-subtitle class="text-center">
+                        {{ parkingCar.nickname }} (
+                        {{ parkingCar.car.number }} )
+                      </v-list-item-subtitle>
+                      <v-list-item-subtitle class="text-center">
+                        {{ db.user.parking.cityName }}
+                      </v-list-item-subtitle>
+                      <v-list-item-subtitle class="text-center">
+                        {{ db.user.parking.areaName }}
+                      </v-list-item-subtitle>
+                      <v-list-item-subtitle class="text-center">
+                        {{ db.user.parking.rateName }}
+                      </v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item
+                    id="startParkingListItem"
+                    v-else
+                    @click="startParkingClick"
+                  >
+                    <v-list-item-content>
+                      <v-list-item-title class="text-center">{{
+                        $t('message.homeView.startParkingListItem')
+                      }}</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                </template>
+              </template>
+              <v-list-item v-else>
                 <v-list-item-content>
-                  <v-list-item-title class="text-center">{{
-                    $t('message.homeView.addCarListItem')
-                  }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item
-                id="startParkingListItem"
-                v-else
-                @click="startParkingClick"
-              >
-                <v-list-item-content>
-                  <v-list-item-title class="text-center">{{
-                    $t('message.homeView.startParkingListItem')
-                  }}</v-list-item-title>
+                  <v-progress-circular
+                    indeterminate
+                    color="primary"
+                  ></v-progress-circular>
                 </v-list-item-content>
               </v-list-item>
               <v-divider></v-divider>
@@ -81,7 +128,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   data() {
@@ -89,8 +136,14 @@ export default {
       loading: false
     }
   },
+  props: {
+    appContext: {
+      type: String
+    }
+  },
   computed: {
-    ...mapGetters('db', ['hasCars'])
+    ...mapState(['db', 'shared']),
+    ...mapGetters('db', ['hasCars', 'isParking', 'parkingCar', 'isPayment'])
   },
   methods: {
     addCarClick() {
@@ -103,6 +156,28 @@ export default {
         name: 'selectCar',
         params: { appContext: 'park' }
       })
+    },
+    endParkingClick() {
+      this.loading = true
+      this.$store
+        .dispatch('park/end')
+        .then(() => {
+          this.loading = false
+        })
+        .catch(error => {
+          this.loading = false
+          console.log(error)
+        })
+    },
+    paymentClick() {
+      this.$router.push({
+        name: 'payment'
+      })
+    }
+  },
+  created() {
+    if (this.appContext === 'paymentComplete') {
+      this.$store.commit('db/updateParkingPaymentData')
     }
   }
 }

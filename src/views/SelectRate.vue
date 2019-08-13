@@ -92,6 +92,7 @@ export default {
   methods: {
     selectRate(rate) {
       this.shared.park.rate = rate
+      this.loading = true
       this.$store
         .dispatch('park/start')
         .then(() => {

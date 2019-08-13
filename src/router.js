@@ -1,5 +1,6 @@
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import store from './store/store'
 
 const router = new Router({
   mode: 'history',
@@ -12,6 +13,7 @@ const router = new Router({
     {
       path: '/home',
       name: 'home',
+      props: true,
       component: Home,
       beforeEnter: (to, from, next) => {
         const loggedIn = localStorage.getItem('user')
@@ -70,6 +72,31 @@ const router = new Router({
       name: 'selectRate',
       component: () =>
         import(/* webpackChunkName: "selectRate" */ './views/SelectRate.vue')
+    },
+    {
+      path: '/payment',
+      name: 'payment',
+      component: () =>
+        import(/* webpackChunkName: "payment" */ './views/Payment.vue')
+    },
+    {
+      path: '/paymentSuccess',
+      name: 'paymentSuccess',
+      beforeEnter: (to, from, next) => {
+        next({
+          name: 'home',
+          params: {
+            appContext: 'paymentComplete'
+          }
+        })
+      }
+    },
+    {
+      path: '/paymentCancel',
+      name: 'paymentCancel',
+      beforeEnter: (to, from, next) => {
+        next({ name: 'home' })
+      }
     }
   ]
 })

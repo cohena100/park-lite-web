@@ -28,5 +28,8 @@ export default {
   },
   startParking(data) {
     return apiClient.post('/parkings/start', data)
+  },
+  endParking(data) {
+    return apiClient.post('/parkings/end', data)
   }
 }

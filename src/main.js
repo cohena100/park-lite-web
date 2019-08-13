@@ -40,7 +40,9 @@ const messages = {
       homeView: {
         title: 'Park Lite',
         addCarListItem: 'Add car',
-        startParkingListItem: 'Start parking'
+        startParkingListItem: 'Start parking',
+        stopParkingListItem: 'Stop parking',
+        paymentListItem: 'Pay for parking'
       },
       carView: {
         title: 'Fill Car Number',
@@ -87,7 +89,9 @@ const messages = {
       homeView: {
         title: 'פארק לייט',
         addCarListItem: 'הוסף רכב',
-        startParkingListItem: 'הפעלת חנייה'
+        startParkingListItem: 'הפעלת חנייה',
+        stopParkingListItem: 'סיום חנייה',
+        paymentListItem: 'תשלום עבור חנייה'
       },
       carView: {
         title: 'הזנת מספר רכב',
