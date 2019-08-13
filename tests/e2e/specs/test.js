@@ -1,11 +1,30 @@
 // https://docs.cypress.io/api/introduction/api.html
 
+const phoneNumber = '0570009557'
+const carNumber = '04455338'
+const code = '1234'
+
 const login = () => {
   cy.visit('/')
-  cy.get('#phoneTextField').type('0570009557')
+  cy.get('#phoneTextField').type(phoneNumber)
   cy.get('#phoneButton').click()
-  cy.get('#validateTextField').type('1234')
+  cy.get('#validateTextField').type(code)
   cy.get('#validateButton').click()
+}
+
+const addCar = () => {
+  cy.get('#addCarListItem').click()
+  cy.get('#carTextField').type(carNumber)
+  cy.get('#carButton').click()
+  cy.get('#nicknameTextField').type('Bimba')
+  cy.get('#nicknameButton').click()
+  cy.get('#validateTextField').type(code)
+  cy.get('#validateButton').click()
+}
+
+const loginAndAddCar = () => {
+  login()
+  addCar()
 }
 
 describe('login', () => {
@@ -18,10 +37,10 @@ describe('login', () => {
   it('should login successfully', () => {
     cy.visit('/')
     cy.url().should('include', '/phone')
-    cy.get('#phoneTextField').type('0570009557')
+    cy.get('#phoneTextField').type(phoneNumber)
     cy.get('#phoneButton').click()
     cy.url().should('include', '/validate')
-    cy.get('#validateTextField').type('1234')
+    cy.get('#validateTextField').type(code)
     cy.get('#validateButton').click()
     cy.url().should('include', '/home')
   })
@@ -35,14 +54,31 @@ describe('login', () => {
     cy.url().should('include', '/home')
     cy.get('#addCarListItem').click()
     cy.url().should('include', '/car')
-    cy.get('#carTextField').type('04455338')
+    cy.get('#carTextField').type(carNumber)
     cy.get('#carButton').click()
     cy.url().should('include', '/nickname')
     cy.get('#nicknameTextField').type('Bimba')
     cy.get('#nicknameButton').click()
     cy.url().should('include', '/validate')
-    cy.get('#validateTextField').type('1234')
+    cy.get('#validateTextField').type(code)
     cy.get('#validateButton').click()
+    cy.url().should('include', '/home')
+  })
+
+  it('should start and end parking successfully', () => {
+    loginAndAddCar()
+    cy.url().should('include', '/home')
+    cy.get('#startParkingListItem').click()
+    cy.url().should('include', '/selectCar')
+    cy.get('#' + carNumber).click()
+    cy.url().should('include', '/selectCity')
+    cy.get('#1').click()
+    cy.url().should('include', '/selectArea')
+    cy.get('#2').click()
+    cy.url().should('include', '/selectRate')
+    cy.get('#1').click()
+    cy.url().should('include', '/home')
+    cy.get('#stopParkingListItem').click()
     cy.url().should('include', '/home')
   })
 })
