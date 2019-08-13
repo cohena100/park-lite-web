@@ -1,6 +1,5 @@
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import store from './store/store'
 
 const router = new Router({
   mode: 'history',
