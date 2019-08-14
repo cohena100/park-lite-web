@@ -56,5 +56,15 @@ export const actions = {
       commit('db/removeCarData', rootState.shared.removeCar, { root: true })
       commit('shared/cleanAfterRemoveCar', null, { root: true })
     })
+  },
+  logout({ commit, rootState }) {
+    return NetworkService.logout(rootState.db.user._id)
+      .then(() => {
+        commit('db/logout', null, { root: true })
+      })
+      .catch(error => {
+        commit('db/logout', null, { root: true })
+        throw error
+      })
   }
 }

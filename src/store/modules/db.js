@@ -43,6 +43,12 @@ export const mutations = {
     state.user.parking = undefined
     state.user.payment = undefined
     localStorage.setItem('user', JSON.stringify(state.user))
+  },
+  logout(state) {
+    state.user = null
+    state.geoPark = null
+    localStorage.removeItem('user')
+    localStorage.removeItem('geoPark')
   }
 }
 

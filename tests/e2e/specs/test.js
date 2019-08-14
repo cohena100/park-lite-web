@@ -108,4 +108,13 @@ describe('login', () => {
     cy.get('#' + carNumber2).click()
     cy.url().should('include', '/user')
   })
+
+  it('should logout', () => {
+    loginAndAddCar()
+    cy.url().should('include', '/home')
+    cy.get('#userButton').click()
+    cy.url().should('include', '/user')
+    cy.get('#logoutListItem').click()
+    cy.url().should('include', '/phone')
+  })
 })

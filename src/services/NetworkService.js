@@ -34,5 +34,8 @@ export default {
   },
   endParking(data) {
     return apiClient.post('/parkings/end', data)
+  },
+  logout(userId) {
+    return apiClient.post('/user/end', { userId })
   }
 }

@@ -112,8 +112,18 @@ export default {
       })
     },
     logoutClick() {
-      // TODO:
       this.loading = true
+      this.$store
+        .dispatch('user/logout')
+        .then(() => {
+          this.loading = false
+          location.reload()
+        })
+        .catch(error => {
+          this.loading = false
+          console.log(error)
+          location.reload()
+        })
     },
     homeClick() {
       this.$router.push({

@@ -100,7 +100,16 @@ const router = new Router({
     {
       path: '/user',
       name: 'user',
-      component: () => import(/* webpackChunkName: "user" */ './views/User.vue')
+      component: () =>
+        import(/* webpackChunkName: "user" */ './views/User.vue'),
+      beforeEnter: (to, from, next) => {
+        const loggedIn = localStorage.getItem('user')
+        if (loggedIn) {
+          next()
+        } else {
+          next({ name: 'home' })
+        }
+      }
     }
   ]
 })
