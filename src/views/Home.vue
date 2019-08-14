@@ -9,7 +9,7 @@
                 $t('message.homeView.title')
               }}</v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-btn icon>
+              <v-btn icon id="userButton" @click="userClick">
                 <v-icon>mdi-account-circle</v-icon>
               </v-btn>
             </v-toolbar>
@@ -172,6 +172,11 @@ export default {
     paymentClick() {
       this.$router.push({
         name: 'payment'
+      })
+    },
+    userClick() {
+      this.$router.push({
+        name: 'user'
       })
     }
   },

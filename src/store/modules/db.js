@@ -21,6 +21,10 @@ export const mutations = {
     state.user.cars.push(payload)
     localStorage.setItem('user', JSON.stringify(state.user))
   },
+  removeCarData(state, car) {
+    state.user.cars = state.user.cars.filter(aCar => aCar._id !== car._id)
+    localStorage.setItem('user', JSON.stringify(state.user))
+  },
   addParkingData(state, payload) {
     state.user = {
       ...state.user,

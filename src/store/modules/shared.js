@@ -11,6 +11,7 @@ export const state = {
     number: null,
     nickname: null
   },
+  removeCar: null,
   park: {
     car: null,
     city: null,
@@ -26,5 +27,26 @@ export const mutations = {
   },
   setAddCarValidate(state, { validateId }) {
     state.validateId = validateId
+  },
+  cleanAfterAddCar(state) {
+    state.addCar.number = null
+    state.addCar.nickname = null
+    state.validateId = null
+    state.code = null
+  },
+  cleanAfterRemoveCar(state) {
+    state.removeCar = null
+  },
+  cleanAfterLoginValidate(state) {
+    state.login.phone = null
+    state.login.userId = null
+    state.validateId = null
+    state.code = null
+  },
+  cleanAfterParkStart(state) {
+    state.park.car = null
+    state.park.city = null
+    state.park.area = null
+    state.park.rate = null
   }
 }

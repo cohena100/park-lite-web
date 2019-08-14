@@ -96,6 +96,11 @@ const router = new Router({
       beforeEnter: (to, from, next) => {
         next({ name: 'home' })
       }
+    },
+    {
+      path: '/user',
+      name: 'user',
+      component: () => import(/* webpackChunkName: "user" */ './views/User.vue')
     }
   ]
 })

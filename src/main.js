@@ -69,6 +69,12 @@ const messages = {
       },
       selectRateView: {
         title: 'Rate Selection'
+      },
+      userView: {
+        title: 'Park Lite',
+        addCarListItem: 'Add car',
+        removeCarListItem: 'Remove Car',
+        logoutListItem: 'Exit'
       }
     }
   },
@@ -118,6 +124,12 @@ const messages = {
       },
       selectRateView: {
         title: 'בחירת תעריף'
+      },
+      userView: {
+        title: 'פארק לייט',
+        addCarListItem: 'הוסף רכב',
+        removeCarListItem: 'הסר רכב',
+        logoutListItem: 'יציאה'
       }
     }
   }

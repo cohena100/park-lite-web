@@ -23,6 +23,9 @@ export default {
   addCar(userId) {
     return apiClient.post('/cars/add', { userId })
   },
+  removeCar(data) {
+    return apiClient.post('/cars/remove', data)
+  },
   addCarValidate(data) {
     return apiClient.post('/cars/addValidate', data)
   },

@@ -2,6 +2,9 @@
 
 const phoneNumber = '0570009557'
 const carNumber = '04455338'
+const carNumber2 = '04455339'
+const nickname = 'Bimba'
+const nickname2 = 'Simba'
 const code = '1234'
 
 const login = () => {
@@ -16,7 +19,7 @@ const addCar = () => {
   cy.get('#addCarListItem').click()
   cy.get('#carTextField').type(carNumber)
   cy.get('#carButton').click()
-  cy.get('#nicknameTextField').type('Bimba')
+  cy.get('#nicknameTextField').type(nickname)
   cy.get('#nicknameButton').click()
   cy.get('#validateTextField').type(code)
   cy.get('#validateButton').click()
@@ -57,7 +60,7 @@ describe('login', () => {
     cy.get('#carTextField').type(carNumber)
     cy.get('#carButton').click()
     cy.url().should('include', '/nickname')
-    cy.get('#nicknameTextField').type('Bimba')
+    cy.get('#nicknameTextField').type(nickname)
     cy.get('#nicknameButton').click()
     cy.url().should('include', '/validate')
     cy.get('#validateTextField').type(code)
@@ -80,5 +83,29 @@ describe('login', () => {
     cy.url().should('include', '/home')
     cy.get('#stopParkingListItem').click()
     cy.url().should('include', '/home')
+  })
+
+  it('should add another car and remove it successfully', () => {
+    loginAndAddCar()
+    cy.url().should('include', '/home')
+    cy.get('#userButton').click()
+    cy.url().should('include', '/user')
+    cy.get('#addCarListItem').click()
+    cy.url().should('include', '/car')
+    cy.get('#carTextField').type(carNumber2)
+    cy.get('#carButton').click()
+    cy.url().should('include', '/nickname')
+    cy.get('#nicknameTextField').type(nickname2)
+    cy.get('#nicknameButton').click()
+    cy.url().should('include', '/validate')
+    cy.get('#validateTextField').type(code)
+    cy.get('#validateButton').click()
+    cy.url().should('include', '/home')
+    cy.get('#userButton').click()
+    cy.url().should('include', '/user')
+    cy.get('#removeCarListItem').click()
+    cy.url().should('include', '/selectCar')
+    cy.get('#' + carNumber2).click()
+    cy.url().should('include', '/user')
   })
 })

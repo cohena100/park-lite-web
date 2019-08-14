@@ -65,7 +65,7 @@ export default {
         errors.push(this.$t('message.carView.errorMin'))
       }
       if (!this.$v.shared.addCar.number.maxLength) {
-        errors.push(this.$t('message.number.errorMax'))
+        errors.push(this.$t('message.carView.errorMax'))
       }
       return errors
     },

@@ -23,6 +23,7 @@ export const actions = {
     return NetworkService.validate(data).then(response => {
       commit('db/setUserData', response.data.user, { root: true })
       commit('db/setGeoParkData', response.data.geoPark, { root: true })
+      commit('shared/cleanAfterLoginValidate', null, { root: true })
     })
   },
   addCar({ commit, rootState }) {
@@ -43,6 +44,17 @@ export const actions = {
     }
     return NetworkService.addCarValidate(data).then(response => {
       commit('db/addCarData', response.data.car, { root: true })
+      commit('shared/cleanAfterAddCar', null, { root: true })
+    })
+  },
+  removeCar({ commit, rootState }) {
+    const data = {
+      userId: rootState.db.user._id,
+      carId: rootState.shared.removeCar._id
+    }
+    return NetworkService.removeCar(data).then(() => {
+      commit('db/removeCarData', rootState.shared.removeCar, { root: true })
+      commit('shared/cleanAfterRemoveCar', null, { root: true })
     })
   }
 }

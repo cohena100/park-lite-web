@@ -20,6 +20,7 @@ export const actions = {
     }
     return NetworkService.startParking(data).then(response => {
       commit('db/addParkingData', response.data, { root: true })
+      commit('shared/cleanAfterParkStart', null, { root: true })
     })
   },
   end({ commit, rootState }) {
