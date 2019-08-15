@@ -32,10 +32,10 @@ const loginAndAddCar = () => {
 
 describe('login', () => {
   beforeEach(() => {
-    // const value =
-    //   'C:\\Users\\user\\mongodb\\bin\\mongo.exe pango-lite-test --eval "db.dropDatabase()"'
     const value =
-      '"C:\\Program Files\\MongoDB\\Server\\4.0\\bin\\mongo.exe" pango-lite-test --eval "db.dropDatabase()"'
+      'C:\\Users\\user\\mongodb\\bin\\mongo.exe pango-lite-test --eval "db.dropDatabase()"'
+    // const value =
+    //   '"C:\\Program Files\\MongoDB\\Server\\4.0\\bin\\mongo.exe" pango-lite-test --eval "db.dropDatabase()"'
     cy.exec(value)
   })
 
