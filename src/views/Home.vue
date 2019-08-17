@@ -181,7 +181,7 @@ export default {
     }
   },
   created() {
-    if (this.appContext === 'paymentSuccess') {
+    if (this.appContext === 'paymentComplete') {
       this.$store.commit('db/updateParkingPaymentData')
     }
   }
