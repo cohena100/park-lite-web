@@ -81,21 +81,14 @@ const router = new Router({
     {
       path: '/paymentSuccess',
       name: 'paymentSuccess',
-      beforeEnter: (to, from, next) => {
-        next({
-          name: 'home',
-          params: {
-            appContext: 'paymentComplete'
-          }
-        })
-      }
+      component: () =>
+        import(/* webpackChunkName: "paymentSuccess" */ './views/PaymentSuccess.vue')
     },
     {
       path: '/paymentCancel',
       name: 'paymentCancel',
-      beforeEnter: (to, from, next) => {
-        next({ name: 'home' })
-      }
+      component: () =>
+        import(/* webpackChunkName: "paymentCancel" */ './views/PaymentCancel.vue')
     },
     {
       path: '/user',
